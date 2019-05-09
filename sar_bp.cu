@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include "helper_math.h"
 
+//#define NUM_PIXELS 268800
+//#define NUM_FT 402
+//#define NUM_PULSES 345
+
+
 /*
  * calc_distance
  * Given a buffer of xyz points and a single xyz point, calculate 
@@ -51,6 +56,7 @@ void calc_distance( const float3 * a_pos_bp,
  * i_signal:        The thread that indexes into the signal
  * i_interp:        The thread that indexes into the interpolation grid
  */
+/*
 __device__
 void linear_interpolation( const float2 * a_signal,
    			         float3 * a_interp_grid,
@@ -62,14 +68,14 @@ void linear_interpolation( const float2 * a_signal,
 			   const int      i_interp)
 {
 
-  /*
+  *
    * To give two points of a signal (x_a, y_a) and (x_b, y_b),
    * linear interpolation estimates the value of a signal point (x, y)
    * between these two points (i.e. x_a <= x <= x_b) by the formula
    * y = y_a + (x - x_a)(y_b - y_a)/(x_b - x_a)
    * This is not the least destructive interpolation method, but 
    * provides reasonable values and can be performed very quickly
-   */
+   *
   
 
   // If walking off the array, return
@@ -110,7 +116,7 @@ void linear_interpolation( const float2 * a_signal,
   a_interp_grid[i_interp].y = a_signal[i_data_a].y + ( x_distance * slope );
 
 }
-
+*/
 
 
 /*
@@ -249,8 +255,9 @@ void sar_backprojection( const float3 * a_rp_data,
   
       // accumulate
       a_img_bp[ i_thread ] += s_buff_b[ i_thread ];
-      */
+      
     }
+  */
 }
 
 

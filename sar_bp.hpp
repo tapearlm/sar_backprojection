@@ -1,6 +1,6 @@
 #pragma once
 #include "sar_bp.cu"
-
+/*
 __device__
 void linear_interpolation( const float3 * a_signal,
    			         float3 * a_interp_grid,
@@ -10,7 +10,7 @@ void linear_interpolation( const float3 * a_signal,
 			   const float    a_offset,
 			   const int      i_signal,
 			   const int      i_interp);
-
+*/
 __device__ __inline__ 
 void calc_distance( const float3 * a_pos_bp,
 		    const float3   a_pos_pc,
