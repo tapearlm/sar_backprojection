@@ -52,7 +52,7 @@ void calc_distance( const float3 * a_pos_bp,
  * i_interp:        The thread that indexes into the interpolation grid
  */
 __device__
-void linear_interpolation( const float3 * a_signal,
+void linear_interpolation( const float2 * a_signal,
    			         float3 * a_interp_grid,
 			   const int      a_length_signal,
 			   const int      a_length_interp, 
@@ -192,6 +192,17 @@ void sar_backprojection( const float3 * a_rp_data,
   float  dr     = a_dr[ i_column ];
   float  fc     = a_fc[ i_column ];
 
+  if( blockIdx.x == 0 && threadIdx.x == 0 )
+    {
+      printf("tx_pos: %g %g %g\n", tx_pos.x, tx_pos.y, tx_pos.z);
+      printf("rx_pos: %g %g %g\n", rx_pos.x, rx_pos.y, rx_pos.z);
+      printf("r_min: %g\n", r_min);
+      printf("dr: %g\n", dr);
+      printf("fc: %g\n", fc);
+      printf("rp_data: %g %g %g\n", s_pulse[0].x, s_pulse[0].y, s_pulse[0].z);
+
+    }
+  /*
   // number of times the block has to loop is the total length of the buffer
   // divided by the number of threads, rounded up
   const int i_loop_max = ( a_num_pixels + blockDim.x - 1 ) / blockDim.x;
@@ -210,7 +221,7 @@ void sar_backprojection( const float3 * a_rp_data,
       // Sum tx and rx distances to get total distance tx -> target -> rx
       // for each pixel
       s_buff_a[ i_thread ] += s_buff_b[ i_thread ];
-
+      
       __syncthreads();
 
       // create interpolation grid
@@ -238,6 +249,7 @@ void sar_backprojection( const float3 * a_rp_data,
   
       // accumulate
       a_img_bp[ i_thread ] += s_buff_b[ i_thread ];
+      */
     }
 }
 

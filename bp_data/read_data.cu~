@@ -1,0 +1,205 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+//#include "vector_types.h"
+//#include "helper_math.h"
+void
+read_dr_vec()
+{
+
+  std::cout << "Reading dr_vec" << std::endl;
+  char* buffer;
+  long lSize;
+  size_t result;
+  FILE* fp = std::fopen("dr_vec.bin", "r");
+  if(!fp) {
+    std::perror("File opening failed");
+  }
+
+  // obtain file size:
+  fseek (fp , 0 , SEEK_END);
+  lSize = ftell (fp);
+  rewind (fp);
+
+  // allocate memory to contain the whole file:
+  buffer = (char*) malloc (sizeof(char)*lSize);
+  if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the buffer:
+  result = fread (buffer,1,lSize,fp);
+  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+
+  double * buffer_d = reinterpret_cast<double*>(buffer);
+  std::cout << "Buffer values: " << std::endl;
+  for(int ii = 0; ii < 30; ii++)
+    {
+      std::cout << buffer_d[ii] << "\t" << std::endl;
+    }
+  std::cout << std::endl;
+  size_t num_elems = lSize / sizeof(double);
+  std::cout << "Number of elements: " << num_elems << std::endl;
+  // terminate
+  fclose (fp);
+  free(buffer);
+
+}
+
+void
+read_fc_vec()
+{
+
+  std::cout << "Reading fc_vec" << std::endl;
+  char* buffer;
+  long lSize;
+  size_t result;
+  FILE* fp = std::fopen("fc_vec.bin", "r");
+  if(!fp) {
+    std::perror("File opening failed");
+  }
+
+  // obtain file size:
+  fseek (fp , 0 , SEEK_END);
+  lSize = ftell (fp);
+  rewind (fp);
+
+  // allocate memory to contain the whole file:
+  buffer = (char*) malloc (sizeof(char)*lSize);
+  if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the buffer:
+  result = fread (buffer,1,lSize,fp);
+  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+
+  double * buffer_d = reinterpret_cast<double*>(buffer);
+  std::cout << "Buffer values: " << std::endl;
+  for(int ii = 0; ii < 30; ii++)
+    {
+      std::cout << buffer_d[ii] << "\t" << std::endl;
+    }
+  std::cout << std::endl;
+  size_t num_elems = lSize / sizeof(double);
+  std::cout << "Number of elements: " << num_elems << std::endl;
+  // terminate
+  fclose (fp);
+  free(buffer);
+
+}
+
+void
+read_rmin()
+{
+
+  std::cout << "Reading rmin" << std::endl;
+  char* buffer;
+  long lSize;
+  size_t result;
+  FILE* fp = std::fopen("rmin.bin", "r");
+  if(!fp) {
+    std::perror("File opening failed");
+  }
+
+  // obtain file size:
+  fseek (fp , 0 , SEEK_END);
+  lSize = ftell (fp);
+  rewind (fp);
+
+  // allocate memory to contain the whole file:
+  buffer = (char*) malloc (sizeof(char)*lSize);
+  if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the buffer:
+  result = fread (buffer,1,lSize,fp);
+  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+
+  double * buffer_d = reinterpret_cast<double*>(buffer);
+  std::cout << "Buffer values: " << std::endl;
+  for(int ii = 0; ii < 30; ii++)
+    {
+      std::cout << buffer_d[ii] << "\t" << std::endl;
+    }
+  std::cout << std::endl;
+  size_t num_elems = lSize / sizeof(double);
+  std::cout << "Number of elements: " << num_elems << std::endl;
+  // terminate
+  fclose (fp);
+  free(buffer);
+
+}
+
+
+void
+read_pos_tx()
+{
+
+  std::cout << "Reading pos_tx" << std::endl;
+  char* buffer;
+  long lSize;
+  size_t result;
+  std::vector<float3> pos_tx_vec;
+  FILE* fp = std::fopen("pos_tx.bin", "r");
+  if(!fp) {
+    std::perror("File opening failed");
+  }
+
+  // obtain file size:
+  fseek (fp , 0 , SEEK_END);
+  lSize = ftell (fp);
+  rewind (fp);
+
+  // allocate memory to contain the whole file:
+  buffer = (char*) malloc (sizeof(char)*lSize);
+  if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the buffer:
+  result = fread (buffer,1,lSize,fp);
+  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+  size_t num_elems = lSize / sizeof(double);
+  double * buffer_d = reinterpret_cast<double*>(buffer);
+
+  // pos_tx are x,y,z coordinates, store in the format
+  // [x0,y0,z0,x1,y1,z1,x2,y2,z2....]. Convert to float3 values instead
+
+  pos_tx_vec.resize(num_elems);
+
+  for( int ii = 0; ii < num_elems/3; ii = ii)
+    {
+
+      int i_buff = ii * 3;
+      pos_tx_vec[ii].x = (float)buffer_d[i_buff];
+      pos_tx_vec[ii].y = (float)buffer_d[i_buff+1];
+      pos_tx_vec[ii].z = (float)buffer_d[i_buff+2];
+    }
+
+  std::cout << "Buffer values: " << std::endl;
+  for(int ii = 0; ii < 30; ii++)
+    {
+      std::cout << pos_tx_vec[ii] << "\t" << std::endl;
+    }
+  std::cout << std::endl;
+  std::cout << "Number of elements: " << num_elems << std::endl;
+  // terminate
+  fclose (fp);
+  free(buffer);
+
+}
+
+int main(int argc, char** argv)
+{
+  //  read_dr_vec();
+  //  read_fc_vec();
+  //  read_rmin();
+    read_pos_tx();
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+
+void
+read_dr_vec()
+{
+  char* buffer;
+  long lSize;
+  size_t result;
+  FILE* fp = std::fopen("bp_data/dr_vec.bin", "r");
+  if(!fp) {
+    std::perror("File opening failed");
+  }
+
+  // obtain file size:
+  fseek (fp , 0 , SEEK_END);
+  lSize = ftell (fp);
+  rewind (fp);
+
+  // allocate memory to contain the whole file:
+  buffer = (char*) malloc (sizeof(char)*lSize);
+  if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+
+  // copy the file into the buffer:
+  result = fread (buffer,1,lSize,fp);
+  if (result != lSize) {fputs ("Reading error",stderr); exit (3);}
+
+  double * buffer_d = reinterpret_cast<double*>(buffer);
+  std::cout << "Buffer values: " << std::endl;
+  for(int ii = 0; ii < 30; ii++)
+    {
+      std::cout << buffer_d[ii] << "\t" << std::endl;
+    }
+  std::cout << std::endl;
+  size_t num_elems = lSize / sizeof(double);
+  std::cout << "Number of elements: " << num_elems << std::endl;
+  // terminate
+  fclose (fp);
+  free(buffer);
+
+}
+
+int main(int argc, char** argv)
+{
+  test_read_data();
+  //CPU_unit_test_device_fcns();
+}
+
+
+
+
+
+
+
+
+
+
