@@ -250,8 +250,8 @@ unit_test_sar_backprojection()
 int main(int argc, char** argv)
 {
 
-  //  CPU_unit_test_device_fcns();
-  unit_test_sar_backprojection();
+  CPU_unit_test_device_fcns();
+  // unit_test_sar_backprojection();
 
 }
 
